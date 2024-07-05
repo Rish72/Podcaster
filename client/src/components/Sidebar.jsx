@@ -1,8 +1,42 @@
 import React from "react";
 import styled from "styled-components";
-import { HomeRounded, CloseRounded } from "@mui/icons-material";
+import {
+  HomeRounded,
+  CloseRounded,
+  SearchRounded,
+  FavoriteRounded,
+  UploadRounded,
+  LightModeRounded,
+  LogoutRounded,
+  DarkModeRounded,
+} from "@mui/icons-material";
 import LogoImg from "../Images/Logo.png";
 import { Link } from "react-router-dom";
+
+
+
+const menuItems = [
+    {
+      link: "/",
+      name: "Dashboard",
+      icon: <HomeRounded />,
+    },
+    {
+      link: "/search",
+      name: "Search",
+      icon: <SearchRounded />,
+    },
+    {
+      link: "/favourites",
+      name: "Favourites",
+      icon: <FavoriteRounded />,
+    },
+  ];
+  
+
+
+
+
 const MenuContainer = styled.div`
   display: flex;
   flex-direction: column;
@@ -11,19 +45,18 @@ const MenuContainer = styled.div`
   background-color: ${({ theme }) => theme.bg};
   color: ${({ theme }) => theme.text_primary};
 
-  //   @media(max-width: 1100px) {
-  //   position : fixed;
-  //   z-index : 1000;
-  //   width : 100%;
-  //   max-width : 250px;
-  //   left: ${({ setMenuOpen }) => (setMenuOpen ? "0" : "-100% ")};
-  //   transition : 0.3s ease-in-out;
-  //   }
+    @media(max-width: 1100px) {
+    position : fixed;
+    z-index : 1000;
+    width : 100%;
+    max-width : 250px;
+    left: ${({ menuOpen }) => (menuOpen ? "0" : "-100% ")};
+    transition : 0.3s ease-in-out;
+    }
 `;
 const Logo = styled.div`
   color: ${({ theme }) => theme.primary};
   display: flex;
-  width: 100%;
   align-items: center;
   justify-content: center;
   gap: 6px;
@@ -33,10 +66,11 @@ const Logo = styled.div`
 `;
 
 const Flex = styled.div`
+padding : 0 12px;
   display: flex;
   flex-direction: row;
   align-items: center;
-  justify-content: center;
+  justify-content: space-between;
 `;
 const Close = styled.div`
   display: none;
@@ -51,37 +85,74 @@ const Element = styled.div`
   align-items: center;
   gap: 12px;
   cursor: pointer;
-  width: 100%;
   color: ${({ theme }) => theme.text_primary};
   &:hover {
     background-color: ${({ theme }) => theme.text_secondary};
   }
 `;
 const NavText = styled.div`
-  paddin: 12px 0px;
+  padding: 12px 0px;
+  
 `;
 const Image = styled.img`
   height: 40px;
 `;
 
-function Sidebar() {
+const HR =  styled.hr`
+  height : 1px ;
+   background-color: ${({ theme }) => theme.text_secondary+50};
+   margin : 10px 0px;
+
+`;
+
+function Sidebar({menuOpen, setMenuOpen,darkMode, setDarkMode}) {
+  const button = [
+    {
+      fun: () => console.log("Triggered Upload"),
+      name: "Upload",
+      icon: <UploadRounded />,
+    },
+    {
+      fun: () => setDarkMode(!darkMode),
+      name: darkMode ? "Light Mode" : "Dark Mode",
+      icon: darkMode ? <LightModeRounded /> : <DarkModeRounded/>,
+    },
+    {
+      fun: () => console.log("Triggered logout"),
+      name: "Log Out",
+      icon: <LogoutRounded />,
+    },
+  ];
+
+
+
   return (
-    <MenuContainer>
-      <Flex>
+    <MenuContainer menuOpen={menuOpen}>
+      <Flex> 
         <Logo>
           <Image src={LogoImg} />
-          PodStream
+          PodCaster
         </Logo>
         <Close>
-          <CloseRounded /> {/*in Mui */}
+          <CloseRounded onClick={() => setMenuOpen(false)}/> {/*in Mui */}
         </Close>
       </Flex>
-      <Link to="/">
-        <Element>
-          <HomeRounded />
-          <NavText>Dashboard</NavText>
-        </Element>
-      </Link>
+
+      {menuItems.map((item,i) => (
+        <Link key ={i} to={item.link} style={{textDecoration : "none"}}>
+          <Element>
+           {item.icon}
+            <NavText>{item.name}</NavText>
+          </Element>
+        </Link>
+      ))}
+      <HR/>
+      {button.map((item,i) => (
+          <Element key ={i} onClick={item.fun}>
+           {item.icon}
+            <NavText>{item.name}</NavText>
+          </Element>
+      ))}
     </MenuContainer>
   );
 }
