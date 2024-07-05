@@ -3,9 +3,14 @@ import styled, { ThemeProvider } from "styled-components";
 import { lightTheme, darkTheme } from "./utils/Themes";
 import "./index.css";
 import Sidebar from "./components/Sidebar";
-import { BrowserRouter } from "react-router-dom";
-import { dark } from "@mui/material/styles/createPalette";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import NavBar from "./components/NavBar";
+import  Dashboard  from "./pages/Dashboard";
+import  Search  from "./pages/Search";
+import  Favourites  from "./pages/Favourites";
+import  Profile  from "./pages/Profile";
+import  Podcast  from "./pages/Podcast";
+import  PodcastDetails  from "./pages/PodcastDetails";
 
 const Container = styled.div`
   background: ${({ theme }) => theme.bgLight};
@@ -39,7 +44,14 @@ function App() {
 
           <Frame>
             <NavBar setMenuOpen={setMenuOpen} menuOpen={menuOpen} />
-            <h1>PodCaster</h1>
+            <Routes>
+              <Route path="/" exact element={<Dashboard/>}/>
+              <Route path="/search" exact element={<Search />}/>
+              <Route path="/favourites" exact element={< Favourites/>}/>
+              <Route path="/profile" exact element={< Profile/>}/>
+              <Route path="/podcast/:type" exact element={< Podcast/>}/>
+              <Route path="/showpodcast/:id" exact element={< PodcastDetails/>}/>
+            </Routes>
           </Frame>
         </Container>
       </BrowserRouter>
