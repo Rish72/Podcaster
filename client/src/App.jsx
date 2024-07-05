@@ -5,6 +5,7 @@ import "./index.css";
 import Sidebar from "./components/Sidebar";
 import { BrowserRouter } from "react-router-dom";
 import { dark } from "@mui/material/styles/createPalette";
+import NavBar from "./components/NavBar";
 
 const Container = styled.div`
   background: ${({ theme }) => theme.bgLight};
@@ -22,13 +23,22 @@ const Frame = styled.div`
 
 function App() {
   const [darkMode, setDarkMode] = useState(true);
-  const [menuOpen, setMenuOpen] = useState(true);
+  const [menuOpen, setMenuOpen] = useState(false);
   return (
     <ThemeProvider theme={darkMode ? darkTheme : lightTheme}>
       <BrowserRouter>
         <Container>
-          <Sidebar setMenuOpen={setMenuOpen} darkMode={darkMode} setDarkMode={setDarkMode} menuOpen={menuOpen}/>
+          {menuOpen && (
+            <Sidebar
+              setMenuOpen={setMenuOpen}
+              darkMode={darkMode}
+              setDarkMode={setDarkMode}
+              menuOpen={menuOpen}
+            />
+          )}
+
           <Frame>
+            <NavBar setMenuOpen={setMenuOpen} menuOpen={menuOpen} />
             <h1>PodCaster</h1>
           </Frame>
         </Container>
