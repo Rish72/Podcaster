@@ -49,8 +49,8 @@ function App() {
               <Route path="/search" exact element={<Search />}/>
               <Route path="/favourites" exact element={< Favourites/>}/>
               <Route path="/profile" exact element={< Profile/>}/>
-              <Route path="/podcast/:type" exact element={< Podcast/>}/>
-              <Route path="/showpodcast/:id" exact element={< PodcastDetails/>}/>
+              <Route path="/podcast/:id" exact element={< Podcast/>}/>
+              <Route path="/showpodcast/:type" exact element={< PodcastDetails/>}/>
             </Routes>
           </Frame>
         </Container>
